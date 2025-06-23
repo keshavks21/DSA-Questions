@@ -28,6 +28,21 @@ public:
         }
 
     }
+    
+    void delete(){
+        arr[1] = arr[size];
+        int index = size;
+        while(index>1){
+            int parent = index/2;
+            if(arr[parent] < arr[index]){
+                swap(arr[parent] , arr[index]);
+                index= parent;
+            }else{
+                return;
+            }
+        }
+    }
+
     void print(){
         for(int i=1 ; i<=size; i++){
             cout<<arr[i]<<" ";

@@ -5,10 +5,11 @@ using namespace std;
 
 class DisjointSet{
 
-    vector<int> parent ,size;
+    vector<int> parent ,size, rank;
 
     public:
     DisjointSet(int n){
+        rank.resize(n+1,0);
         parent.resize(n+1);
         size.resize(n+1);
         for(int i=0; i<n; i++){
@@ -37,6 +38,21 @@ class DisjointSet{
         }
     }
 
+    void unionByRank(int u, int v){
+        int uParent = findUParent(u);
+        int vParent = findUParent(v);
+
+        if(uParent == vParent)return ;
+        if(rank[uParent] < rank[vParent]){
+            parent[uParent] = vParent;
+        }else if(rank[uParent] > rank[vParent]){
+            parent[vParent] = uParent;
+        }else{
+            parent[vParent] = uParent;
+            rank[uParent]++;
+        }
+    }
+
 };
 
 int main(){
@@ -48,13 +64,29 @@ int main(){
     ds.unionBySize(6,7);
     ds.unionBySize(5,6);
 
-    if(ds.findUParent(3) == ds.findUParent(7))
-    cout<<"same\n";
-    else cout<<"not same\n";
+    //By SIZE:
 
-    ds.unionBySize(3,7);
+    // cout<<"BY Size: \n";
+    // if(ds.findUParent(3) == ds.findUParent(7))
+    // cout<<"Same\n";
+    // else cout<<"Not same\n";
+
+    // ds.unionBySize(3,7);
+    // if(ds.findUParent(3) == ds.findUParent(7))
+    // cout<<"Same\n";
+    // else cout<<"Not same\n";
+
+    //By Rank:
+    
+    cout<<"BY Rank: \n";
     if(ds.findUParent(3) == ds.findUParent(7))
-    cout<<"same\n";
-    else cout<<"not same\n";
+    cout<<"Same\n";
+    else cout<<"Not same\n";
+
+    ds.unionByRank(3,7);
+    if(ds.findUParent(3) == ds.findUParent(7))
+    cout<<"Same\n";
+    else cout<<"Not same\n";
+
     return 0;
 }
